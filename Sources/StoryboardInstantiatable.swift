@@ -150,7 +150,10 @@ extension NSObject {
     }
     set {
       objc_setAssociatedObject(self, DipTagAssociatedObjectKey, newValue, .OBJC_ASSOCIATION_COPY_NONATOMIC)
-      guard let instantiatable = self as? StoryboardInstantiatable else { return }
+      guard let instantiatable = self as? StoryboardInstantiatable else {
+        print("Warning: \(type(of: self)) has `dipTag` set in Interface Builder, but it does not implement `StoryboardInstantiatable` protocol.")
+        return
+      }
       
       let tag = dipTag.map(DependencyContainer.Tag.String)
       
